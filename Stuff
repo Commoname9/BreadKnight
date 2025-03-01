@@ -1,0 +1,20 @@
+function loadData() {
+    const apiKey = 'YOUR_API_KEY';
+    const sheetId = '1MD8rqAt2wpUg0jtK0fl1vLlDmBUuMnBpJmD3ya3oJnY'; // Your actual Sheet ID
+    const range = 'Sheet1!A2:E'; // Adjust range accordingly
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
+
+    fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        const entries = data.values;
+        const roster = document.getElementById('roster');
+        roster.innerHTML = ''; // Clear previous entries
+        entries.forEach(entry => {
+            const name = entry[0]; // Assuming the name is in the first column
+            const role = entry[1]; // Assuming the role is in the second column
+            roster.innerHTML += `<p>${name} - ${role}</p>`; // Append each entry to the div
+        });
+    })
+    .catch(error => console.error('Error loading data:', error));
+}
